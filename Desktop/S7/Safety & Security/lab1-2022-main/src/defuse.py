@@ -7,6 +7,23 @@ from tinyscript_util import (
 )
 import tinyscript as tn
 
+def add_instrumentation(alpha: tn.Prog) -> tn.Prog:
+	match alpha:
+		case tn.Asgn(name, e):
+
+		case tn.Skip():
+
+		# the only one needs instrumentation
+		case tn.Output(e): 
+
+		case tn.Abort():
+
+		case tn.Seq(alpha_p, beta_p):
+
+		case tn.If(p, alpha_p, beta_p):
+
+		case tn.While(q, alpha_p):
+
 def instrument(alpha: tn.Prog) -> tn.Prog:
 	"""
 	Instruments a program to support symbolic checking 
@@ -21,6 +38,7 @@ def instrument(alpha: tn.Prog) -> tn.Prog:
 	    	to determine whether a trace in the original program
 	    	`alpha` exists that uses an undefined variable.
 	"""
+
 	return alpha
 
 def symbolic_check(

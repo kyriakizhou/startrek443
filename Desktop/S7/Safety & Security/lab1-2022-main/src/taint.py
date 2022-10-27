@@ -15,6 +15,23 @@ import interpreter as interp
 import tinyscript as tn
 import z3
 
+# def add_instrumentation(alpha: tn.Prog, source_prefix: str='sec_') -> tn.Prog:
+# 	match alpha:
+# 		case tn.Asgn(name, e):
+
+# 		case tn.Skip():
+
+# 		# the only one needs instrumentation
+# 		case tn.Output(e): 
+
+# 		case tn.Abort():
+
+# 		case tn.Seq(alpha_p, beta_p):
+
+# 		case tn.If(p, alpha_p, beta_p):
+
+# 		case tn.While(q, alpha_p):
+
 def instrument(alpha: tn.Prog, source_prefix: str='sec_') -> tn.Prog:
 	"""
 	Instruments a program to support symbolic checking 

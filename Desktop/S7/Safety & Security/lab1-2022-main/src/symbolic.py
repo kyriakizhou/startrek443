@@ -48,7 +48,7 @@ def box(
 
         # [x := e] P(x) <--> P(e)
         case tn.Asgn(name, e):
-            return z3.substitute(postcondition, term_enc(tn.Var(name)), term_enc(e))
+            return z3.substitute(postcondition, [(term_enc(tn.Var(name)), term_enc(e))])
 
         # [alpha; beta] P <--> [alpha]([beta] P)
         case tn.Seq(alpha_p, beta_p):
@@ -58,8 +58,8 @@ def box(
 
         # [If(Q) alpha else beta] P <--> (Q -> [alpha] P) ^ (~Q -> [beta] P)
         case tn.If(q, alpha_p, beta_p):
-            return tn.AndF(tn.Implies(fmla_enc(q), box(alpha_p, postcondition, max_depth)),
-                                tn.Implies(fmla_enc(tn.NotF(q)), box(beta_p, postcondition, max_depth)))
+            return z3.And(z3.Implies(fmla_enc(q), box(alpha_p, postcondition, max_depth)),
+                                z3.Implies(fmla_enc(tn.NotF(q)), box(beta_p, postcondition, max_depth)))
 
         # [while(Q) alpha] P <--> [if(Q) { alpha; while(Q) alpha } else { assert(True) }] P
         case tn.While(q, alpha_p):
@@ -69,7 +69,7 @@ def box(
                         postcondition, max_depth-1)
         # [output = e] P
         case tn.Output(e):
-            return box(e, postcondition, max_depth, depth_exceed_strict)
+            return postcondition
 
         case tn.Abort():
             return postcondition
